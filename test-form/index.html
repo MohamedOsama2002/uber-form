@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE-edge">
+        <meta name="Viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+        <!-- <link rel="stylesheet" href="css/all.min.css"> -->
+        
+        <!-- <link rel="stylesheet" href="https://drive.google.com/uc?id=1g4k-KBfbGue0p29rXJ-ySki7J5NopbhY"> -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+        <!-- <link href="https://drive.google.com/uc?id=1w5KEOe-4cXH5DQgDAQdkRfmNK6AseNFn"> -->
+        <link rel="stylesheet" href="css/style.css">
+        <title>Transformation Form</title>
+        <style>
+            body{
+                font-family: Arial, Helvetica, sans-serif;
+            }
+        .button{
+            transform: translate(11vw , 1vw);
+            
+        }
+        .fileInput{
+            color: tomato;
+            font-size: 1.1vw;
+            font-weight: 700;
+            cursor: pointer;
+                }
+        .uploadInput{
+            color: rgb(14, 14, 14);
+            font-weight: 700;
+            border-radius: 0.2vw;
+            border: solid 10px #dc3545;
+            padding: 0.3vw;
+            transform: translateY(-1vw);
+            
+        }
+        </style>   
+     </head>
+    <body>
+    <div class="py-5 container">
+    <div class="row">
+     <div class="col-lg-5 col-md-8 mx-auto shadow border bg-white p-4 rounded">
+        <h2 class="text-center fw-bold mb-3 text-danger">* مكتب فالكون خاص بالمدفوعات الاسبوعيه *</h2>
+        
+        <form name="google-sheet" method="post" action="https://script.google.com/macros/s/AKfycbxL1QbAkUeay7gtJCtSwGzNzl3b_1W7-JOd6is0rD_f/dev" id="uploadForm" >
+            <input type="hidden" value="" name="fileContent" id="fileContent">
+            <input type="hidden" value="" name="filename" id="filename">
+            <div class=" bs5-form-group mb-3">
+                <label for="name" class="form-label text-label ">اسم  الشريك</label>
+                <input type="text" id="Name" name="Partner Name" class="form-control" placeholder="Enter Your Name" required>
+            </div>
+
+            
+           <div class=" bs5-form-group mb-3">
+            <label for="number" class="form-label text-label">رقم البطاقه</label>
+            <input type="number" id="cardId" name="Card ID" class="form-control" placeholder="ID Number" required>
+           </div>
+           
+
+
+           <div class=" bs5-form-group mb-3">
+            <label for="number" class="form-label text-label">الرقم المسجل ف اوبر</label>
+            <input type="number" id="u-Number" name="Uber number" class="form-control" placeholder="+20" required>
+           </div>
+           
+
+
+           <div class=" bs5-form-group mb-3">
+            <label for="number" class="form-label text-label">رقم المحفظه البنكيه</label>
+            <input type="number" id="w-number" name="Wallet Number" class="form-control" placeholder="+20" required>
+           </div>
+           
+           <div class="bs5-form-group mb-3">
+
+            <label for="name" class="form-label text-label">كتابه المبلغ جنيهات وقروش</label>
+            <input rows="3" type="number" id="a-text" name="Message" class="form-control" placeholder="Weekly Payout Sum 00.00 (برجاء كتابه الدخل الاسبوعي جنيهات وقروش ) ">
+           </div>
+<!-- ////////////////////////////////////////////////// -->
+         <div>
+            <label for="uploadFile" class="text-label py-2" >برجاء ارفاق الاسكرين الخاصه بالدخل الاسبوعي</label>
+            <input type="file" class="form-control btn btn-danger text-black  " name="attach" id="attach">
+            </div>
+            <button  id="suBmit" class="btn btn-danger button "  type="submit">Send Message</button>
+        </form>
+<!-- </form> -->
+</div>
+</div>
+</div>
+        
+
+    </div>
+    </div>
+</div>
+   <!-- <script src="js/bootstrap.bundle.min.js"></script> -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+   <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbykogt9W0Y2uRsw4gw8nZrm5WKdPfhELa_cupwwnZqClsh-wez8WUnoqDIaONK-NlCjFQ/exec'
+    const form = document.forms['google-sheet']
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => console.log('Success!', response))
+        .catch(error => console.error('Error!', error.message))
+    })
+$("#suBmit").click(function(){
+const patnerName = $("#Name").val();
+const cardId = $("#cardId").val();
+const uberNumber = $("#u-Number").val();
+const walletNumber = $("#w-number").val();
+if(patnerName === "" || cardId === "" || walletNumber === "" || walletNumber === ""){
+    Swal.fire({
+        title: 'Field Empty!!',
+        icon: 'warning',
+        text: ' please check messing field',
+        button: 'ok',
+});
+}else{
+    Swal.fire({
+        title: 'Successfully',
+        icon: 'success',
+        text: 'transaction within 24 hour',
+        button: 'ok',
+});
+}
+})
+
+function UploadFile(){
+    var reader = new FileReader();
+    var file = document.getElementById("attach").files[0];
+    reader.onload = function(){
+        document.getElementById('fileContent').value = reader.result;
+        document.getElementById('filename').value = file.name;
+        document.getElementById('uploadForm').submit();
+    }
+    reader.readAsDataURL(file);
+}
+  </script>
+  <!-- script for form manupulation -->
+    
+    </body>
+</html>
